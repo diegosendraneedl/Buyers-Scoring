@@ -6,7 +6,7 @@ import datetime
 import os
 import csv
 #from Classes.ADONet.ADONet import ADONet
-from BuyersScoring.Classes.ADONet.ADONet import ADONet
+from BuyersScoringList.Classes.ADONet.ADONet import ADONet
 
 #deprecated
 #from Package.libname.BuyersScoringUpdate import main
@@ -53,10 +53,12 @@ class BuyersScoring:
             tscoringtypeDescription = "Brands"                
         elif piScoringType==1:
             tscoringtypeDescription = "n/a"      
+        elif piScoringType==10:
+            tscoringtypeDescription = "All"
             
         #dev
         with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\csv\\accounts scoring-" + tscoringtypeDescription + "-" + f"{datetime.datetime.now():%Y-%m-%d}" + ".csv", 'a', newline='') as fileStream:        
-        #with open(os.getcwd() + "\\buyers_scoring\\csv\\accounts scoring-" + tscoringtypeDescription + "-" + f"{datetime.datetime.now():%Y-%m-%d}" + ".csv", 'a', newline='') as fileStream:        
+        #with open(pROOTDIR + "/BuyersScoringList/csv/accounts scoring-" + tscoringtypeDescription + "-" + f"{datetime.datetime.now():%Y-%m-%d}" + ".csv", 'a', newline='') as fileStream:        
             writer = csv.writer(fileStream, delimiter=",")
 
             #scoring results - header
@@ -105,7 +107,7 @@ class BuyersScoring:
             return (tid, tcontactID ,temail ,temail2 ,temail3 ,tphone ,tphone2 ,tfirstName ,tlastName ,twabelID ,tlinkedinUpdate, tuRLLinkedinProfile ,tcontactPosition ,tcategory1 ,tcategory2 , twabelCategory2 ,twabelCategory3 ,tgoldenCategory1 ,tgoldenCategory2 ,tgoldenCategory3 ,temailingstatus ,tzohocompanytype, taccountName)
 
     #to be implemented
-    """ def ContactsScore (self, pfabortScoring, ptcontactID, piScoringType, plstscoringResults, ptCommand):
+    """ def ContactsScore (self, pfabortScoring, ptcontactID, piScoringType, plstscoringResults, ptCommand, pROOTDIR):
             iret = 0
             pfabortScoring = False
 
@@ -165,8 +167,8 @@ class BuyersScoring:
                 iret = 1
                 #contact ID - error log - write
                 #dev
-                with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\contactID-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
-                #with open(os.getcwd() + "\\buyers_scoring\\logs\\contactID-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
+                with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\contactID-scoring-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
+                #with open(pROOTDIR + "/BuyersScoringList/logs/contactID-scoring-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
                     #writer = csv.writer(fileStream, delimiter=",")                    
                     #contact ID
                     fileStreamLog.write(str(tcontactid))
@@ -176,7 +178,7 @@ class BuyersScoring:
             return (iret, pfabortScoring, ptcontactID, plstscoringResults) """
     #end to be implemented
     #     
-    def ContactsScoreQuality (self, pfabortScoring, ptcontactID, piScoringType, plstscoringResults, ptCommand):
+    def ContactsScoreQuality (self, pfabortScoring, ptcontactID, piScoringType, plstscoringResults, ptCommand, pROOTDIR):
         iret = 0
         pfabortScoring = False
 
@@ -240,6 +242,8 @@ class BuyersScoring:
             tzohocompanytypeStr =" A.zohoCompanyType = 'Purchasing Group' "
         elif (int(piScoringType) == 2):
             tzohocompanytypeStr =" NOT A.zohoCompanyType = 'Manufacturer' AND NOT A.zohoCompanyType = 'Purchasing Group' "
+        elif (int(piScoringType) == 10):
+            tzohocompanytypeStr =" A.zohoCompanyType LIKE '%%' "
         
         dstContacts = pd.read_sql_query ("SELECT A.zohocompanytype, A.accountName, C.accountName_ID, C.id AS contactID, " +
             " C.email, C.email2, C.email3, C.phone,C.phone2, C.firstName, " +
@@ -252,7 +256,7 @@ class BuyersScoring:
             " LEFT JOIN data_team.zoho_crm_contacts_catagories CC ON CC.id = C.id " +
             " WHERE (" + tzohocompanytypeStr + " " #+ tprocessFlaggedStr +
             ") GROUP BY C.accountName_ID, C.id" +
-            " ORDER BY C.accountName_ID, C.id limit 5", objADONet.connectionMySQL) 
+            " ORDER BY C.accountName_ID, C.id limit 100", objADONet.connectionMySQL) 
  
         fcontactIdFound = False
         fconnectionError = False
@@ -399,6 +403,8 @@ class BuyersScoring:
                 tscoringtypeDescription = "Purchasing Group"   
             if (piScoringType==2):
                 tscoringtypeDescription = "Other"
+            if (piScoringType==10):
+                tscoringtypeDescription = "All"
                 
             print (str(lscoringresultsTotal+1) + "\t" + str(tcontactid) + "\t" + str(tfirstName + " " + tlastName) + "\t" + str(taccountName) + "\t" + str(iScoringTotal) + "\t" + tscoringtypeDescription)
 
@@ -457,13 +463,16 @@ class BuyersScoring:
 
         if (fconnectionError):
             ptcontactID = tcontactid    
+            
+            print ("contactID-scoringQuality-" + str(piScoringType) + ".dat")
+            print (str(tcontactid))
 
             iret = 1
             #contact ID - error log - write
             #dev
             with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\contactID-scoringQuality-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
-            #with open(os.getcwd() + "\\buyers_scoring\\logs\\contactID-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
-                #contact ID
+            #with open(pROOTDIR + "/BuyersScoringList/logs/contactID-scoringQuality-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
+                #contact ID                
                 fileStreamLog.write(str(tcontactid))
 
         objADONet = None

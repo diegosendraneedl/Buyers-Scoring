@@ -11,13 +11,10 @@ conf_file_path = ""
 def run(ptSQLUpdate, conf_file_path=False): #conf_file="conf.ini"
     ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    #log folder - creation
-    #log/  
-
     #ADO.Net - Environment Variables - Connection
     #dev
-    ADONet.connectionEnvironmentVariables(os.path.dirname(ROOT_DIR) + '\\BuyersScoring.env')
-    #ADONet.connectionEnvironmentVariables(os.path.dirname(ROOT_DIR) + '/BuyersScoring.env')
+    ADONet.connectionEnvironmentVariables(ROOT_DIR + '\\BuyersScoring.env')
+    #ADONet.connectionEnvironmentVariables(ROOT_DIR + '/BuyersScoring.env')
 
     fconnectionError = False
 
@@ -51,9 +48,6 @@ if (__name__ == "__main__"):
     conf_file_path = os.path.dirname(os.path.abspath(__file__)) + '\\conf.ini'
     #conf_file_path = os.path.dirname(os.path.abspath(__file__)) + '/conf.ini'
 
-    #log folder - creation
-    #log/    
-
     fconnectionError=False
 
     #dev
@@ -66,8 +60,8 @@ if (__name__ == "__main__"):
 
         #ADO.Net - Environment Variables - Connection
         #dev
-        ADONet.connectionEnvironmentVariables(os.path.dirname(ROOT_DIR) + '\\BuyersScoring.env')
-        #ADONet.connectionEnvironmentVariables(os.path.dirname(ROOT_DIR) + '/BuyersScoring.env')
+        ADONet.connectionEnvironmentVariables(ROOT_DIR + '\\BuyersScoring.env')
+        #ADONet.connectionEnvironmentVariables(ROOT_DIR + '/BuyersScoring.env')
 
         #main - run        
         fconnectionError = run (sys.argv[1])        
