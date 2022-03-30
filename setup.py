@@ -4,18 +4,18 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="libname",
+    name="Buyers Scoring",
     version="0.0.1",
-    author="Alexandre Guillemine",
-    author_email="alexandre.guillemine@needl.co",
-    description="A package to compute discrepancies every day'",
+    author="Diego Sendra",
+    author_email="diego@wabel.com",
+    description="Buyers Scoring updates the score of a contact. It also assigns a quality score for a contact.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=['libname.name_of_your_service_1', 'libname.name_of_your_service_2'],
-    package_dir={'libname.name_of_your_service_1': 'libname/name_of_your_service_1',
-                 'libname.name_of_your_service_2': 'libname/name_of_your_service_2'},
-    package_data={'libname.name_of_your_service_1': ['data/*.sql', 'conf.ini'],
-                  'libname.name_of_your_service_2': ['data/*.sql', 'conf.ini']},
+    packages=['BuyersScoringList', 'BuyersScoringUpdate'],
+    package_dir={'BuyersScoringList': 'BuyersScoringList',
+                 'BuyersScoringUpdate': 'BuyersScoringUpdate'},
+    package_data={'BuyersScoringList': ['data/*.sql', 'conf.ini'],
+                  'BuyersScoringUpdate': ['data/*.sql', 'conf.ini']},
     url="https://github.com/needl-app/Timeline_Dashboard",
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -25,6 +25,12 @@ setuptools.setup(
     install_requires=[
         "python-dotenv",
         "pymysql",
-        "sqlalchemy"
+        "sqlalchemy",
+	"configparser",
+	"datetime",
+	"pandas",
+	"array",
+	"pathlib"
+	"exception"
     ]
 )

@@ -85,8 +85,8 @@ def run(conf_file_path):
             print (str(datetime.datetime.today()) + " - " + tscoringtypeDescription + " - Lost connection to MySQL server at 34.76.45.236:3306 at id: " + str(BuyersScoring.contactID) + ". Start the scoring script again to resume using this contactID, also found in contactID-" + str(BuyersScoring.scoringType) + ".dat.\r\n- i.e. main.py --scoringQuality --0 --id:contactID\r\nCurrent parameters: " + str(sys.argv) + "\r\n")
             
             #dev
-            with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\contacts-scoringQuality-" + tscoringtypeDescription.replace("/","-") + "-log.txt", 'a', newline='') as fileStreamLog:
-            #with open(ROOT_DIR + "/BuyersScoringList\logs/contacts-scoringQuality-log.txt", 'wt', newline='') as fileStream:
+            #with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\contacts-scoringQuality-" + tscoringtypeDescription.replace("/","-") + "-log.txt", 'a', newline='') as fileStreamLog:
+            with open(ROOT_DIR + "/BuyersScoringList\logs/contacts-scoringQuality-log.txt", 'wt', newline='') as fileStream:
                 #contacts scoring - error log - contact ID - write 
                 fileStreamLog.write (str(datetime.datetime.today()) + " - " + tscoringtypeDescription + " - Lost connection to MySQL server at 34.76.45.236:3306 at id: " + str(BuyersScoring.contactID) + ". Start the scoring script again to resume using this contactID, also found in contactID-" + str(BuyersScoring.scoringType) + ".dat.\r\n- i.e. main.py --scoringQuality --0 --id:contactID\r\nCurrent parameters: " + str(sys.argv) + "\r\n")
 
@@ -94,8 +94,8 @@ def run(conf_file_path):
             print (str(datetime.datetime.today()) + " - " + tscoringtypeDescription + " - Lost connection to MySQL server at 34.76.45.236:3306 at id: " + str(BuyersScoring.contactID) + ". Start the scoring script again to resume using this contactID, also found in contactID-" + str(BuyersScoring.scoringType) + ".dat.\r\n- i.e. main.py --scoring --0 --id:contactID\r\nCurrent parameters: " + str(sys.argv) + "\r\n")
 
             #dev
-            with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\contacts-scoring-" + tscoringtypeDescription.replace("/","-") + "-log.txt", 'a', newline='') as fileStreamLog:
-            #with open(ROOT_DIR + "/BuyersScoringList/logs/contacts-scoring-log.txt", 'wt', newline='') as fileStream:
+            #with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\contacts-scoring-" + tscoringtypeDescription.replace("/","-") + "-log.txt", 'a', newline='') as fileStreamLog:
+            with open(ROOT_DIR + "/BuyersScoringList/logs/contacts-scoring-log.txt", 'wt', newline='') as fileStream:
                 #contacts scoring - error log - contact ID - write 
                 fileStreamLog.write (str(datetime.datetime.today()) + " - " + tscoringtypeDescription + " - Lost connection to MySQL server at 34.76.45.236:3306 at id: " + str(BuyersScoring.contactID) + ". Start the scoring script again to resume using this contactID, also found in contactID-" + str(BuyersScoring.scoringType) + ".dat.\r\n- i.e. main.py --scoring --0 --id:contactID\r\nCurrent parameters: " + str(sys.argv) + "\r\n")
     
@@ -103,14 +103,14 @@ if __name__ == "__main__":
     ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     #dev
-    conf_file_path = os.path.dirname(os.path.abspath(__file__)) + '\\conf.ini'
-    #conf_file_path = os.path.dirname(os.path.abspath(__file__)) + '/conf.ini'
+    #conf_file_path = os.path.dirname(os.path.abspath(__file__)) + '\\conf.ini'
+    conf_file_path = os.path.dirname(os.path.abspath(__file__)) + '/conf.ini'
 
     #log folder - creation
     try:
         #dev
-        os.mkdir(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs")
-        #os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '/logs')
+        #os.mkdir(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs")
+        os.mkdir(os.path.dirname(os.path.abspath(__file__)) + '/logs')
     except Exception:
         ffolderalreadyExists = True        
 
@@ -126,9 +126,10 @@ if __name__ == "__main__":
     #command-line parameters - read
     fcommandlineError=False
 
+    sys.argv = ["main.py", "--" + str(config_usecase["general"].get("command")) , "--" + config_usecase["general"].get("scoringType")]
+
     #dev
     #sys.argv = ["main.py", "--scoringQuality", "--1"] #"--id:519498000001298871"
-    sys.argv = ["main.py", "--" + str(config_usecase["general"].get("command")) , "--" + config_usecase["general"].get("scoringType")]
 
     if len(sys.argv)>1:            
         if ((str(sys.argv[1]).lower().find ("scoringquality")>-1) or (str(sys.argv[1]).lower().find ("scoring")>-1)):
@@ -146,18 +147,18 @@ if __name__ == "__main__":
 
                 #Contact ID - log - read
                 #dev
-                if (os.path.exists(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\ContactID-scoringQuality-" + str(BuyersScoring.scoringType) + ".dat")):
-                #if (os.path.exists(ROOT_DIR + "\\logs\\ContactID-scoringQuality-" + str(piscoringType) + ".dat")):
+                #if (os.path.exists(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\ContactID-scoringQuality-" + str(BuyersScoring.scoringType) + ".dat")):
+                if (os.path.exists(ROOT_DIR + "/logs/ContactID-scoringQuality-" + str(BuyersScoring.scoringType) + ".dat")):
                     #dev
-                    with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\ContactID-scoringQuality-" + str(BuyersScoring.scoringType) + ".dat", 'r', newline='') as fileStreamLog:
-                    #with open(ROOT_DIR + "\\logs\\ContactID-scoringQuality-" + str(piscoringType) + ".dat", 'r', newline='') as fileStreamLog:
+                    #with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\ContactID-scoringQuality-" + str(BuyersScoring.scoringType) + ".dat", 'r', newline='') as fileStreamLog:
+                    with open(ROOT_DIR + "/logs/ContactID-scoringQuality-" + str(BuyersScoring.scoringType) + ".dat", 'r', newline='') as fileStreamLog:
                         #Contact ID (id:value)
                         BuyersScoring.ContactID = fileStreamLog.readline()
 
                     #Contact ID - log - delete                
                     #dev
-                    os.remove(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\ContactID-scoringQuality-" + str(BuyersScoring.scoringType) + ".dat")
-                    #os.remove(ROOT_DIR + "/logs/ContactID-scoringQuality-" + str(BuyersScoring.scoringType) + ".dat")
+                    #os.remove(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\logs\\ContactID-scoringQuality-" + str(BuyersScoring.scoringType) + ".dat")
+                    os.remove(ROOT_DIR + "/logs/ContactID-scoringQuality-" + str(BuyersScoring.scoringType) + ".dat")
 
                 #contact ID (id:value)
                 if len(sys.argv)>3:
@@ -191,8 +192,8 @@ if __name__ == "__main__":
         if not fcommandlineError:
             #ADO.Net - Environment Variables - Connection
             #dev
-            ADONet.connectionEnvironmentVariables(ROOT_DIR + '\\BuyersScoring.env')
-            #ADONet.connectionEnvironmentVariables(ROOT_DIR + '/BuyersScoring.env')
+            #ADONet.connectionEnvironmentVariables(ROOT_DIR + '\\BuyersScoring.env')
+            ADONet.connectionEnvironmentVariables(ROOT_DIR + '/BuyersScoring.env')
 
             #main - run
             run(conf_file_path)
