@@ -167,7 +167,7 @@ class BuyersScoring:
                 iret = 1
                 #contact ID - error log - write
                 #dev
-                with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\buyers_scoring\\Package\\BuyersScoringList\\logs\\contactID-scoring-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
+                with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\buyers_scoring\\logs\\contactID-scoring-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
                 #with open(pROOTDIR + "/BuyersScoringList/logs/contactID-scoring-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
                     #writer = csv.writer(fileStream, delimiter=",")                    
                     #contact ID
@@ -470,7 +470,7 @@ class BuyersScoring:
             iret = 1
             #contact ID - error log - write
             #dev
-            with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\buyers_scoring\\Package\\BuyersScoringList\\logs\\contactID-scoringQuality-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
+            with open(os.getenv('APPDATA') + "\\Diego Sendra\\code\\Python\\pierre_asseo\\buyers_scoring\\buyers_scoring\\logs\\contactID-scoringQuality-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
             #with open(pROOTDIR + "/BuyersScoringList/logs/contactID-scoringQuality-" + str(piScoringType) + ".dat", 'wt', newline='') as fileStreamLog:
                 #contact ID                
                 fileStreamLog.write(str(tcontactid))
